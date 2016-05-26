@@ -10,6 +10,7 @@ License: GPL (>= 2)
 URL: https://github.com/leeper/GK2011
 BugReports: https://github.com/leeper/GK2011/issues
 LazyData: TRUE
+Imports: stats
 Suggests:
     testthat
 RoxygenNote: 5.0.1

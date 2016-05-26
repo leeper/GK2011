@@ -140,7 +140,7 @@ with(ajps[ajps$pid == -1, ], {
 
 ## Installation ##
 
-[![CRAN](http://www.r-pkg.org/badges/version/GK2011)](http://cran.r-project.org/package=GK2011)
+[![CRAN](http://www.r-pkg.org/badges/version/GK2011)](https://cran.r-project.org/package=GK2011)
 [![Build Status](https://travis-ci.org/leeper/GK2011.png?branch=master)](https://travis-ci.org/leeper/GK2011)
 [![codecov.io](http://codecov.io/github/leeper/GK2011/coverage.svg?branch=master)](http://codecov.io/github/leeper/GK2011?branch=master)
 

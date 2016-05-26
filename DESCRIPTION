@@ -1,7 +1,7 @@
 Package: GK2011
 Type: Package
 Title: Gaines and Kuklinski (2011) Estimators for Hybrid Experiments
-Version: 0.1.2
+Version: 0.1.3
 Date: 2016-05-26
 Authors@R: c(person("Thomas J.", "Leeper", role = c("aut", "cre"),
                     email = "thosjleeper@gmail.com"))

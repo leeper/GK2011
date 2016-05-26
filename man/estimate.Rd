@@ -4,7 +4,7 @@
 \alias{estimate}
 \title{estimate}
 \usage{
-estimate(rand, tr, y, iterations = 1000L)
+estimate(rand, tr, y, iterations = 5000L)
 }
 \arguments{
 \item{rand}{An integer or logical vector specifying whether each observation is from the random (1) or self-selection (0) arm of the experiment.}
@@ -22,6 +22,7 @@ A data.frame containing the following variables:
 \item \code{Estimate}, a numeric vector of effect estimates
 \item \code{SE}, a numeric vector of bootstrapped standard errors
 \item \code{t}, a t-statistic for the effect
+\item \code{p}, a two-tailed p-value
 }
 The return value will also carry an attribute \dQuote{alpha}, indicating the estimated proportion \eqn{\alpha}.
 }

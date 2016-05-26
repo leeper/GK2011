@@ -23,6 +23,7 @@
 #' \item \code{Estimate}, a numeric vector of effect estimates
 #' \item \code{SE}, a numeric vector of bootstrapped standard errors
 #' \item \code{t}, a t-statistic for the effect
+#' \item \code{p}, a two-tailed p-value
 #' }
 #' The return value will also carry an attribute \dQuote{alpha}, indicating the estimated proportion \eqn{\alpha}.
 #' @author Thomas J. Leeper <thosjleeper@gmail.com>
@@ -36,17 +37,10 @@
 #' 
 #' # estimate effects
 #' estimate(rand = d$rand, tr = d$tr, y = d$y)
-#' @importFrom stats sd
+#' @importFrom stats sd pt
 #' @seealso \code{\link{ajps}}
 #' @export
-estimate <- function(rand, tr, y, iterations = 1e3L) {
-    
-    # define groups
-    ## random treatment
-    yt <- y[rand == 1 & tr == 1]
-    yc <- y[rand == 1 & tr == 0]
-    yst <- y[rand == 0 & tr == 1]
-    ysc <- y[rand == 0 & tr == 0]
+estimate <- function(rand, tr, y, iterations = 5e3L) {
     
     # define estimators
     ## sate
@@ -73,32 +67,45 @@ estimate <- function(rand, tr, y, iterations = 1e3L) {
     }
     
     # perform estimation
-    ys <- c(yst, ysc)
-    te <- sate(yt, yc)
-    alpha <- alpha(yst, ysc)
-    tes <- t_s(ys, yc, alpha)
-    ten <- t_n(yt, ys, alpha)
-    nv <- naive(yst, ysc)
+    te <- sate(y[rand == 1 & tr == 1], y[rand == 1 & tr == 0])
+    a <- alpha(y[rand == 0 & tr == 1], y[rand == 0 & tr == 0])
+    tes <- t_s(y[rand == 0], y[rand == 1 & tr == 0], a)
+    ten <- t_n(y[rand == 1 & tr == 1], y[rand == 0], a)
+    nv <- naive(y[rand == 0 & tr == 1], y[rand == 0 & tr == 0])
     
     # bootstrap standard errors
-    d1 <- c(yt, yc, yst, ysc)
-    d2 <- c(rep(1, length(yt)), rep(2, length(yc)), rep(3, length(yst)), rep(4, length(ysc)))
     ses <- replicate(iterations, {
-        s <- sample(d2, length(d2), TRUE)
-        c(sate(d1[s == 1], d1[s==2]),
-          t_s(d1[s %in% c(3,4)], d1[s == 2], alpha),
-          t_n(d1[s == 1], d1[s %in% c(3,4)], alpha),
-          naive(d1[s == 3], d1[s == 4]) )
+        s <- sample(1:length(rand), length(rand), TRUE)
+        alphatmp <- alpha(y[rand[s] == 0 & tr[s] == 1], y[rand[s] == 0 & tr[s] == 0])
+        c(
+          # SATE
+          sate(y[rand[s] == 1 & tr[s] == 1], y[rand[s] == 1 & tr[s] == 0]),
+          # t_s
+          t_s(y[rand[s] == 0], y[rand[s] == 1 & tr[s] == 0], alphatmp),
+          # t_n
+          t_n(y[rand[s] == 1 & tr[s] == 1], y[rand[s] == 0], alphatmp),
+          # naive
+          naive(y[rand[s] == 0 & tr[s] == 1], y[rand[s] == 0 & tr[s] == 0])
+          )
     })
     
     # output
     out <- list(Effect = c("t", "t_s", "t_n", "naive"),
                 Estimate = c(te, tes, ten, nv),
-                SE = c(sd(ses[,1]), sd(ses[,2]), sd(ses[,3]), sd(ses[,4]) ))
+                SE = c(sd(ses[1,]), sd(ses[2,]), sd(ses[3,]), sd(ses[4,]) ))
     out[["t"]] <- out[["Estimate"]]/out[["SE"]]
+    dfs <- c(length(y[rand == 1]),
+             length(y[(rand == 0) | (rand == 1 & tr == 0)]),
+             length(y[(rand == 0) | (rand == 1 & tr == 1)]),
+             length(y[rand == 0]))
+    out[["p"]] <- 2*pt(abs(out[["t"]]), df = dfs - 1, lower.tail = FALSE)
     structure(out,
               class = "data.frame",
               row.names = 1:4,
-              means = c(y_t = mean(yt), y_c = mean(yc), y_s = mean(ys), y_st = mean(yst), y_sc = mean(ysc)),
-              alpha = alpha)
+              means = c(y_t = mean(y[rand == 1 & tr == 1]), 
+                        y_c = mean(y[rand == 1 & tr == 0]),
+                        y_s = mean(y[rand == 0]),
+                        y_st = mean(y[rand == 0 & tr == 1]),
+                        y_sc = mean(y[rand == 0 & tr == 01])),
+              alpha = a)
 }

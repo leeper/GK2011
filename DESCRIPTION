@@ -1,8 +1,8 @@
 Package: GK2011
 Type: Package
 Title: Gaines and Kuklinski (2011) Estimators for Hybrid Experiments
-Version: 0.1.1
-Date: 2016-05-25
+Version: 0.1.2
+Date: 2016-05-26
 Authors@R: c(person("Thomas J.", "Leeper", role = c("aut", "cre"),
                     email = "thosjleeper@gmail.com"))
 Description: Implementations of the treatment effect estimators for hybrid (self-selection) experiments, as developed by Brian J. Gaines and James H. Kuklinski, (2011), "Experimental Estimation of Heterogeneous Treatment Effects Related to Self-Selection," American Journal of Political Science 55(3): 724-736.

@@ -147,10 +147,10 @@ with(ajps[ajps$pid == -1, ], {
 This package is not yet on CRAN. To install the latest development version you can pull directly from GitHub:
 
 ```R
-if(!require("ghit")){
-    install.packages("ghit")
+if(!require("remotes")){
+    install.packages("remotes")
 }
-ghit::install_github("leeper/GK2011")
+remotes::install_github("leeper/GK2011")
 ```
 
 

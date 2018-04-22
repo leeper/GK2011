@@ -1,4 +1,4 @@
-# Gaines and Kuklinski (2011) Estimators for Hybrid Experiments #
+# Gaines and Kuklinski (2011) Estimators for Hybrid Experiments
 
 **GK2011** is a package for providing implementations of the treatment effect estimators for hybrid (self-selection) experiments, as developed by Gaines and Kuklinski (2011).
 
@@ -11,7 +11,7 @@ These functions estimate local average treatment effects for unobserved populati
 
 
 
-## Code Examples ##
+## Code Examples
 
 The only function is `estimate()`, which provides a simple interface for estimating all effects:
 
@@ -84,11 +84,11 @@ with(ajps[ajps$pid == -1, ], {
 ```
 
 
-## Installation ##
+## Installation
 
-[![CRAN](http://www.r-pkg.org/badges/version/GK2011)](https://cran.r-project.org/package=GK2011)
+[![CRAN](https://www.r-pkg.org/badges/version/GK2011)](https://cran.r-project.org/package=GK2011)
 [![Build Status](https://travis-ci.org/leeper/GK2011.png?branch=master)](https://travis-ci.org/leeper/GK2011)
-[![codecov.io](http://codecov.io/github/leeper/GK2011/coverage.svg?branch=master)](http://codecov.io/github/leeper/GK2011?branch=master)
+[![codecov.io](https://codecov.io/github/leeper/GK2011/coverage.svg?branch=master)](https://codecov.io/github/leeper/GK2011?branch=master)
 
 This package is not yet on CRAN. To install the latest development version you can pull directly from GitHub:
 
@@ -100,6 +100,6 @@ remotes::install_github("leeper/GK2011")
 ```
 
 
-## References ##
+## References
 
 Brian J. Gaines and James H. Kuklinski, (2011), "Experimental Estimation of Heterogeneous Treatment Effects Related to Self-Selection," *American Journal of Political Science* 55(3): 724-736, doi:10.1111/j.1540-5907.2011.00518.x.
